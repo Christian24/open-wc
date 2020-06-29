@@ -29,7 +29,7 @@ The same is true for methods. You should try to follow the HTML specification wh
 Be sure to only override methods defined in `HTMLElement` when necessary or desired. Examples of this could be `blur()` or `focus()`.
 
 ### Events
-The `dispatchEvent` method allows us fire an instance of `CustomEvent`. Here it can make sense to prefix events known in the HTML specification. For example `org-textfield` might fire an event called `org-change`. This allows to tell custom element events and builtin events apart. 
+The `dispatchEvent` method allows us fire an instance of `CustomEvent`. Here it can make sense to prefix event names defined in the HTML specification. For example `org-textfield` might fire an event called `org-change`. This allows to tell custom element events and builtin events apart. 
 
 You should not need to fire builtin events from your custom element. If you do, using a workaround like calling `click()` method on it might be easier and should also do the trick.   
 
