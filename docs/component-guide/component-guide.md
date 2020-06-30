@@ -39,7 +39,26 @@ Slots can be useful for displaying user content.
 ### Elements with one or more slots
 If your element contains one slot or more (or you are not sure if you will have more than one slot) it is best practice to name your slots right away even if you only have one to start with. It is painful having to refactor your code when you introduce a second slot. 
 
-In a language like Typescript it is a good idea to introduce a string enum which holds all your slots. This helps because from the name of the enum you can get code completion for all slots defined in that element. It also helps with refactoring later. 
+In a language like Typescript it is a good idea to introduce a string enum which holds all your slots. This helps because from the name of the enum you can get code completion for all slots defined in that element. It also helps with refactoring later.
+
+Example:
+````typescript
+export enum SampleElementSlots {
+  CONTENT = 'content',
+  ACTIONS = 'actions'
+}
+````
+In your template:
+````typescript
+render() {
+  return html`<sample-element>
+      <p slot="${SampleElementSlots.CONTENT}">Hello world</p>
+      <div slot="${SampleElementsSlots.ACTIONS}">
+        <button>Click me!</button>
+      </div>
+    </sample-element>`;
+}
+````
 
 ### Elements that use a slot to display `textContent` 
 If you have an element that as slotted content should only ever output text content you can achieve this like so:
@@ -59,5 +78,46 @@ render() {
     </div>`;
 }
 ````
+### Elements with only a single slot for user content
+For some elements you want to allow to slot user content not only the text. If you are using a single slot you can emulate an API similar to that of builtin elements: 
 
+````typescript 
+@customElement('org-button')
+export type OrgButton extends LitElement {
+
+  render() {
+    return html`<div class="button">
+                  <slot></slot>
+                </div>`;
+  }
+}
+````
+This example element could be used similarly to a builtin `button` element:
+
+````html
+<org-button><span class="icon"></span>Click me!</org-button>
+````
+Beware that this technique only works if you have a single slot.
+
+### Styling slotted content
+The pseudo selector `::slotted` can be used to style slotted content. Consider the following example: 
+````typescript 
+@customElement('org-button')
+export type OrgButton extends LitElement {
+
+  render() {
+    return html`<div class="button">
+                  <slot></slot>
+                </div>`;
+  }
+}
+````
+Here all slotted content that is a p tag should have a font weight of bold:
+
+````css
+::slotted(p) {
+  font-weight: bold;
+}
+````
+More information on the slotted pseudo selector can be found at https://developer.mozilla.org/en-US/docs/Web/CSS/::slotted.
 
