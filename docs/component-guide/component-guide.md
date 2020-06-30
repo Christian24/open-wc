@@ -121,3 +121,20 @@ Here all slotted content that is a p tag should have a font weight of bold:
 ````
 More information on the slotted pseudo selector can be found at https://developer.mozilla.org/en-US/docs/Web/CSS/::slotted.
 
+## Try to limit  direct DOM usage scenarios
+While the DOM represents our markup and therefore our templates it presents us with certain challenges:
+
+* Instances of elements can only be accessed once they have been rendered and added to the DOM
+* Attribute values can only be strings. Any other types that you might want to use need to be serialized and deserialized in order to be passed through an attribute.
+
+`lit-html` allows us to use property bindings in order to bind to element properties directly. This has multiple advantages:
+
+* the binding value does not need to be serialized or deserialized
+* the binding becomes "active" once the element is added to the DOM
+
+Try to expose as much of your API as properties or attributes (if it is boolean or string attribute) to limit the scenarios where you need to query for a specific DOM element in order to achieve something. 
+
+However, there are certainly scenarios where this is unavoidable for example if you want to invoke a method of an element or query attributes or properties that have not been exposed through an event.
+
+
+
