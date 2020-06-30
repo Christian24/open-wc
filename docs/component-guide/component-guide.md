@@ -136,5 +136,24 @@ Try to expose as much of your API as properties or attributes (if it is boolean 
 
 However, there are certainly scenarios where this is unavoidable for example if you want to invoke a method of an element or query attributes or properties that have not been exposed through an event.
 
+## Allowing customization of your elements by developers
+Shadow DOM protects your element styling against mutations from the outside. In some scenarios it might be useful to allow for some customization when using your elements though. In this case the specification allows you to drill a little hole into your Shadow DOM by defining some values in your styles as CSS variables. Developers can then define them at the host element.
+
+For example in your component styles you might have:
+````css
+.button-primary {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+````
+Users of your elements can then define these variables like so:
+````css
+:root {
+  --primary-color: blue;
+  --text-color: white;
+}
+````
+More information on using CSS variables can be found here: https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties.
+
 
 
