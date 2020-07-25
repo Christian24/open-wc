@@ -1,5 +1,5 @@
 # Component guide
-This guide is meant to collect best practices for building custom elements. 
+This guide is meant to collect practices for building reusable custom elements. 
 
 ## Naming custom elements
 To define a custom element you need a tag name which identifies it to the browser. Custom element tag names need to contain a hyphen (`-`). You can use this to your advantage to identify elements that belong to your project. 
