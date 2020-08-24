@@ -1,6 +1,18 @@
 # Component guide
 This guide is meant to collect practices for building reusable custom elements. 
 
+**Menu:**
+
+<div class="table-of-contents">
+  <ul>
+    <li><a href="#naming-custom-elements">Naming custom elements</a></li>
+    <li><a href="#the-api-of-your-elements">The API of your elements</a></li>
+    <li><a href="#slots">Slots</a></li>
+    <li><a href="#try-to-limit-direct-DOM-usage-scenarios">Try to limit direct DOM usage scenarios</a></li>
+    <li><a href="#allowing-customization-of-your-elements-by-developers">Allowing customization of your elements by developers</a></li>
+  </ul>
+</div>
+
 ## Naming custom elements
 To define a custom element you need a tag name which identifies it to the browser. Custom element tag names need to contain a hyphen (`-`). You can use this to your advantage to identify elements that belong to your project. 
 
@@ -14,13 +26,18 @@ The API of your custom element is very important part of it and you should put g
 ### Follow the footsteps of the HTML specification
 Naming things is hard. It is especially hard to name attributes, properties, methods and events. Luckily, there is an API people should already be familar with: The API of builtin elements defined in the HTML specification. When designing your API try to follow the path defined by builtin elements. 
 
-
 ### Attributes and properties
 For attributes and properties: Your `org-textfield` might accept a boolean attribute called `required`, just like `input` does. If developers want to mark an element as required in a form they can use `required` or `required=true` just like they could use with builtin elements. 
 
 However, try to stick to the minimum necessary, you do not want to reimplement builtin elements with different styling. Build only what you need. There is a good chance your `org-textfield` is just as useful without the `size` attribute defined in the HTML specification. 
 
 Be careful not to overwrite properties and attributes defined in `HTMLElement`. This might lead to undesired consequences: For example an attribute or property `title`, might sound like a great name for a heading while the HTML specification has intended a different use for it (https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/title).
+
+Be aware that your web components may have a long life ahead of them: You do not know what technology they might be used with in the future. Certainly, attributes will still be part of the HTML specification then.
+
+So, try to expose as much of your API as attributes, since this might be the only binding available in future markup. In this case try to avoid object bindings, better let every key be its own attribute.
+ 
+If you need to use arrays, it might be better to have each item of the array represent a single instance of your element (think `<input type="radio">` as an example in the HTML spec).   
 
 ### Methods
 
@@ -121,7 +138,7 @@ Here all slotted content that is a p tag should have a font weight of bold:
 ````
 More information on the slotted pseudo selector can be found at https://developer.mozilla.org/en-US/docs/Web/CSS/::slotted.
 
-## Try to limit  direct DOM usage scenarios
+## Try to limit direct DOM usage scenarios
 While the DOM represents our markup and therefore our templates it presents us with certain challenges:
 
 * Instances of elements can only be accessed once they have been rendered and added to the DOM
